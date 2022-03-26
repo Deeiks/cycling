@@ -26,5 +26,10 @@ public class InvalidStageStateException extends Exception {
 	public InvalidStageStateException(String message) {
 		super(message);
 	}
+	static void checkStageState(Stage s) throws InvalidStageStateException {
+		if (s.getStageState()== StageState.WAITING_FOR_RESULTS | s.getStageState() == StageState.CONCLUDED) {
+			throw new InvalidStageStateException("Stage is not under preparation");
+		}
+	}
 
 }

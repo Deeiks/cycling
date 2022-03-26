@@ -16,6 +16,7 @@ import java.util.ArrayList;
  */
 public class BadMiniCyclingPortal implements MiniCyclingPortalInterface {
 	static ArrayList<Race> races = new ArrayList<Race>();
+	static ArrayList<Team> teams = new ArrayList<Team>();
 
 	@Override
 	public int[] getRaceIds() {
@@ -55,7 +56,7 @@ public class BadMiniCyclingPortal implements MiniCyclingPortalInterface {
 				 //Add Stages and Total length
 				 return raceDetails;
 				}
-			throw new IDNotRecognisedException("ID Not Recognized");
+			throw new IDNotRecognisedException("ID Not Recognised");
 			}
 		}
 		catch(IDNotRecognisedException e) {
@@ -73,13 +74,11 @@ public class BadMiniCyclingPortal implements MiniCyclingPortalInterface {
 					check = true;
 					break;
 				}
-
-			}if(!check) throw new IDNotRecognisedException("ID Not Recognized");
+			}if(!check) throw new IDNotRecognisedException("ID Not Recognised");
 		}
 		catch(IDNotRecognisedException e){
-
+			System.out.println(e);
 		}
-
 	}
 
 	@Override
@@ -87,7 +86,7 @@ public class BadMiniCyclingPortal implements MiniCyclingPortalInterface {
 		try{
 			for (Race r: races){
 				if(raceId==r.getId()) return r.getStages().size();
-				}throw new IDNotRecognisedException("ID Not Recognized");
+				}throw new IDNotRecognisedException("ID Not Recognised");
 			}catch(IDNotRecognisedException e){
 		}
 		return 0;
@@ -106,7 +105,7 @@ public class BadMiniCyclingPortal implements MiniCyclingPortalInterface {
 					r.addStage(stageName,description,length,startTime,type);
 					return Stage.getCurId();
 				}
-			}throw new IDNotRecognisedException("ID Not Recognized");
+			}throw new IDNotRecognisedException("ID Not Recognised");
 		}catch (IDNotRecognisedException| IllegalNameException| InvalidNameException| InvalidLengthException e){
 
 		}
@@ -123,7 +122,7 @@ public class BadMiniCyclingPortal implements MiniCyclingPortalInterface {
 					int []stageIds = new int[stages.size()];
 					for(int i=0 ; i<stages.size(); i++) stageIds[i] = stages.get(i).getId();
 					return stageIds;
-				} throw new IDNotRecognisedException("ID Not Recognized");
+				} throw new IDNotRecognisedException("ID Not Recognised");
 			}
 		}catch (IDNotRecognisedException e){
 		}
@@ -132,91 +131,272 @@ public class BadMiniCyclingPortal implements MiniCyclingPortalInterface {
 
 	@Override
 	public double getStageLength(int stageId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
+		try{
+			for(Race r:races){
+				for(Stage s:r.getStages()){
+					if(s.getId()==stageId){
+						return s.getStageLength();
+					}
+				}
+			} throw new IDNotRecognisedException("ID Not Recognised");
+		}catch (IDNotRecognisedException e){
+		}
 		return 0;
 	}
 
 	@Override
 	public void removeStageById(int stageId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-
+		try{ boolean check = false;
+			outerLoop : for(Race r:races){
+				for(Stage s:r.getStages()){
+					if(s.getId()==stageId){
+						r.removeStage(s);
+						check = true;
+						break outerLoop;
+					}
+				}
+			} if(!check) {throw new IDNotRecognisedException("ID Not Recognised");}
+		}catch (IDNotRecognisedException e){
+		}
 	}
 
 	@Override
 	public int addCategorizedClimbToStage(int stageId, Double location, SegmentType type, Double averageGradient,
 			Double length) throws IDNotRecognisedException, InvalidLocationException, InvalidStageStateException,
 			InvalidStageTypeException {
-		// TODO Auto-generated method stub
+		try{for (Race r:races){
+			for (Stage s:r.getStages()) {
+				if (stageId == s.getId()) {
+					InvalidStageTypeException.checkStageType(s);
+					InvalidStageStateException.checkStageState(s);
+					Double currentRemainingLength = s.getStageLength();
+					for (Segment seg : s.getSegments()) {
+						currentRemainingLength -= seg.getSegmentLength();
+					}
+					if (currentRemainingLength < length | location > s.getStageLength()){
+						throw new InvalidLocationException();
+					}
+					s.addSegment(location, length, type, averageGradient);
+					return Segment.getCurId();
+				}
+			}
+			}throw new IDNotRecognisedException("ID Not Recognised");
+		} catch (IDNotRecognisedException|InvalidLocationException|InvalidStageStateException|InvalidStageTypeException
+				e) {
+		}
+
 		return 0;
 	}
 
 	@Override
 	public int addIntermediateSprintToStage(int stageId, double location) throws IDNotRecognisedException,
 			InvalidLocationException, InvalidStageStateException, InvalidStageTypeException {
-		// TODO Auto-generated method stub
+		try{for (Race r:races){
+			for (Stage s:r.getStages()) {
+				if (stageId == s.getId()) {
+					InvalidStageTypeException.checkStageType(s);
+					InvalidStageStateException.checkStageState(s);
+					if (location > s.getStageLength()){
+						throw new InvalidLocationException();
+					}
+					s.addSegment(location); // Finish THIS THING
+					return Segment.getCurId();
+				}
+			}
+		}throw new IDNotRecognisedException("ID Not Recognised");
+		} catch (IDNotRecognisedException|InvalidLocationException|InvalidStageStateException|InvalidStageTypeException
+				e) {
+		}
+
 		return 0;
 	}
 
 	@Override
 	public void removeSegment(int segmentId) throws IDNotRecognisedException, InvalidStageStateException {
-		// TODO Auto-generated method stub
+		try{boolean check = false;
+			outerLoop: for (Race r:races){
+			for(Stage s:r.getStages()){
+				for(Segment seg: s.getSegments()){
+					if(seg.getId()==segmentId){
+						InvalidStageStateException.checkStageState(s);
+						s.removeSegment(seg);
+						check = true;
+						break outerLoop;
+					}
+				}
+			}
+		}
+		if(check == false){throw new IDNotRecognisedException("ID Not Recognised");}
+		}catch(InvalidStageStateException|IDNotRecognisedException e){
+			System.out.println(e);
+		}
 
 	}
 
 	@Override
 	public void concludeStagePreparation(int stageId) throws IDNotRecognisedException, InvalidStageStateException {
-		// TODO Auto-generated method stub
-
+		try{boolean check = false;
+			outerLoop: for (Race r: races){
+				for(Stage s:r.getStages()){
+					if(stageId == s.getId()){
+						InvalidStageStateException.checkStageState(s);
+						s.setStageState(StageState.WAITING_FOR_RESULTS);
+						check = true;
+						break outerLoop;
+					}
+				}
+			}throw new IDNotRecognisedException("ID Not Recognised");
+		}catch(IDNotRecognisedException|InvalidStageStateException e){
+			System.out.println(e);
+		}
 	}
 
 	@Override
 	public int[] getStageSegments(int stageId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
+		try{for(Race r: races){
+			for(Stage s: r.getStages()){
+				if(s.getId() == stageId){
+					int[] segmentIds = new int[s.getSegments().size()];
+					int i=0;
+					for(Segment seg:s.getSegments()){
+						segmentIds[i] = seg.getId();
+					}
+					return segmentIds;
+				}
+			}
+			}throw new IDNotRecognisedException("ID Not Recognised");
+		}catch (IDNotRecognisedException e){
+			System.out.println(e);
+		}
 		return null;
 	}
 
 	@Override
 	public int createTeam(String name, String description) throws IllegalNameException, InvalidNameException {
-		// TODO Auto-generated method stub
+		try {
+			InvalidNameException.checkName(name);
+			for(Team t: teams) {
+				if (name == t.getName()) {
+					throw new IllegalNameException("Name already used");
+				}
+			}
+			teams.add(new Team(name,description));
+		}
+		catch (IllegalNameException |InvalidNameException e) {
+			System.out.println(e);
+		}
 		return 0;
 	}
 
 	@Override
 	public void removeTeam(int teamId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-
+		try{
+			boolean check = false;
+			for (Team t: teams){
+				if(teamId==t.getId()){
+					teams.remove(t);
+					check = true;
+					break;
+				}
+			}if(!check) throw new IDNotRecognisedException("ID Not Recognised");
+		}
+		catch(IDNotRecognisedException e){
+			System.out.println(e);
+		}
 	}
 
 	@Override
 	public int[] getTeams() {
-		// TODO Auto-generated method stub
-		return null;
+		int[] teamIds = new int[teams.size()];
+		int i = 0;
+		for (Team t: teams){
+			teamIds[i] = t.getId();
+			i++;
+		}
+		return teamIds;
 	}
 
 	@Override
 	public int[] getTeamRiders(int teamId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
+		try {
+			for (Team t : teams) {
+				if (t.getId() == teamId) {
+					int[] riderIds = new int[t.getRiders().size()];
+					if (t.getRiders().size() == 0) {
+						return null;
+					}
+					int i = 0;
+					for (Rider r : t.getRiders()) {
+						riderIds[i] = r.getId();
+						i++;
+					}
+					return riderIds;
+				}
+			}
+			throw new IDNotRecognisedException("ID Not Recognised");
+		} catch (IDNotRecognisedException e) {
+			System.out.println(e);
+		}
 		return null;
 	}
-
 	@Override
 	public int createRider(int teamID, String name, int yearOfBirth)
 			throws IDNotRecognisedException, IllegalArgumentException {
-		// TODO Auto-generated method stub
+		try{
+			if(name == null){throw new IllegalArgumentException("Name can't be empty");}
+			if(yearOfBirth <1900){throw new IllegalArgumentException("Invalid Year of Birth");}
+			for (Team t:teams){
+				if(teamID == t.getId()){
+					t.addRider(teamID,name,yearOfBirth);
+				}
+			} throw new IDNotRecognisedException("ID Not Recognised");
+		}catch (IDNotRecognisedException|IllegalArgumentException e){
+		}
 		return 0;
 	}
 
 	@Override
 	public void removeRider(int riderId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-
+		try{
+			for(Team t:teams){
+				for(Rider r: t.getRiders()){
+					if(r.getId()==riderId){
+						t.removeRider(r);
+					}
+				}
+			}throw new IDNotRecognisedException("ID Not Recognised");
+		}catch(IDNotRecognisedException e){
+			System.out.println(e);
+		}
 	}
 
 	@Override
 	public void registerRiderResultsInStage(int stageId, int riderId, LocalTime... checkpoints)
 			throws IDNotRecognisedException, DuplicatedResultException, InvalidCheckpointsException,
 			InvalidStageStateException {
-		// TODO Auto-generated method stub
+		try{
+			for(Race r:races){
+				for(Stage s: r.getStages()){
+					if(s.getId()==stageId){
+						if(s.getStageState()!=StageState.WAITING_FOR_RESULTS){
+							throw new InvalidStageStateException("Invalid Stage State");
+						}
+						if(checkpoints.length != s.getStageLength() +2 ){
+							throw new InvalidCheckpointsException("Invalid Amount of Checkpoints");
+					}
+						for(Team t:teams){
+							for(Rider rid: t.riders){
+								if(rid.getId() == riderId){
+									
+								}
+
+								}
+							}
+						}
+				}
+			}
+
+		}catch ()
 
 	}
 

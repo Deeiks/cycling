@@ -4,12 +4,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Race {
-	private static int nextId = 0;
-	private String name;
-	private String desc;
-	private int id;
-	private int currentStageID;
-	private ArrayList<Stage> stages;
+	static int nextId = 0;
+	String name;
+	String desc;
+	int id;
+	int currentStageID;
+	ArrayList<Stage> stages;
 
 
 	// Constructor
@@ -32,11 +32,14 @@ public class Race {
 		return id;
 	}
 
-	public ArrayList<Stage> getStages() {return stages;}
+		public ArrayList<Stage> getStages() {return stages;}
 
 	public void addStage(String stageName, String description, double length, LocalDateTime startTime,
 						 StageType type){
 		stages.add(new Stage(stageName,description,length,startTime,type));
+	}
+	public void removeStage(Stage stage){
+		stages.remove(stage);
 	}
 	//Setter
 

@@ -25,4 +25,9 @@ public class InvalidStageTypeException extends Exception {
 		super(message);
 	}
 
+	static void checkStageType(Stage s) throws InvalidStageTypeException {
+		if (s.getStageType()== StageType.TT) {
+			throw new InvalidStageTypeException("Time Trials can not contain segments");
+		}
+	}
 }
