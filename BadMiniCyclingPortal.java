@@ -442,22 +442,64 @@ public class BadMiniCyclingPortal implements MiniCyclingPortalInterface {
 		return null;
 	}
 
-	@Override
+	---------------------------
+@Override
 	public void eraseCyclingPortal() {
 		// TODO Auto-generated method stub
+		private race id;
+		private stage id;
+		private results id;
+		public CyclingPortalInterface(int id, String name){
+			this.id = id; this.race = race;
+			this.id = id; this.stage = stage;
+			this.id = id; this.results = results;
+			
+		ObjectInputStream in = new ObjectInputStream(new
+			FileInputStream("CyclingPortalInterface.ser"));
+			
+		public final Object readObject() throws IOException,
+			ClassNotFoundException
+		public void close() throws IOException
+
+		}
 
 	}
 
 	@Override
 	public void saveCyclingPortal(String filename) throws IOException {
 		// TODO Auto-generated method stub
+		private race id;
+		private stage id;
+		private results id;
+		public CyclingPortalInterface(int id, String name){
+			this.id = id; this.race = race;
+			this.id = id; this.stage = stage;
+			this.id = id; this.results = results;
+		ObjectOutputStream oos = new ObjectOutputStream(new)
+			FileOutputStream("CyclingPortalInterface.ser"));
+		public final void writeObject(Object obj);
+			throws IOException
+		public void close() throws IOException
+		
+		
+
+
+
+		
 
 	}
 
 	@Override
 	public void loadCyclingPortal(String filename) throws IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
+		private race id;
+		private stage id;
+		private results id;
+		public CyclingPortalInterface(int id, String name){
+			this.id = id; this.race = race;
+			this.id = id; this.stage = stage;
+			this.id = id; this.results = results;
 
-	}
+
 
 }
