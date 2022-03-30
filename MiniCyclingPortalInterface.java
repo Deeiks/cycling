@@ -55,18 +55,24 @@ public interface MiniCyclingPortalInterface extends Serializable {
 	 */
 	String viewRaceDetails(int raceId) throws IDNotRecognisedException;
 
-	/**
-	 * The method removes the race and all its related information, i.e., stages,
-	 * segments, and results.
-	 * <p>
-	 * The state of this MiniCyclingPortalInterface must be unchanged if any
-	 * exceptions are thrown.
-	 * 
-	 * @param raceId The ID of the race to be removed.
-	 * @throws IDNotRecognisedException If the ID does not match to any race in the
-	 *                                  system.
-	 */
-	void removeRaceById(int raceId) throws IDNotRecognisedException;
+	public class removeRaceById{
+     
+		public static void main(String[] args) throws Exception {
+			 
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			dbf.setValidating(false);
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			 
+			Document doc = db.parse(new FileInputStream(new File()));
+			 
+			Element element = (Element) doc.getElementsByTagName("raceId").item(0);
+			 
+			
+			boolean hasAttribute = element.hasAttribute("raceId");
+			
+	 		element.removeAttribute("raceId");
+	 
+			void removeRaceById(int raceId) throws IDNotRecognisedException;
 
 	/**
 	 * The method queries the number of stages created for a race.
@@ -134,17 +140,24 @@ public interface MiniCyclingPortalInterface extends Serializable {
 	 */
 	double getStageLength(int stageId) throws IDNotRecognisedException;
 
-	/**
-	 * Removes a stage and all its related data, i.e., segments and results.
-	 * <p>
-	 * The state of this MiniCyclingPortalInterface must be unchanged if any
-	 * exceptions are thrown.
-	 * 
-	 * @param stageId The ID of the stage being removed.
-	 * @throws IDNotRecognisedException If the ID does not match to any stage in the
-	 *                                  system.
-	 */
-	void removeStageById(int stageId) throws IDNotRecognisedException;
+	public class removeStageById{
+     
+		public static void main(String[] args) throws Exception {
+			 
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			dbf.setValidating(false);
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			 
+			Document doc = db.parse(new FileInputStream(new File()));
+			 
+			Element element = (Element) doc.getElementsByTagName("stageId").item(0);
+			 
+			
+			boolean hasAttribute = element.hasAttribute("stageId");
+			
+	 		element.removeAttribute("stageId");
+	 
+			void removeStageById(int stageId) throws IDNotRecognisedException;
 
 	/**
 	 * Adds a climb segment to a stage.
@@ -196,18 +209,23 @@ public interface MiniCyclingPortalInterface extends Serializable {
 	int addIntermediateSprintToStage(int stageId, double location) throws IDNotRecognisedException,
 			InvalidLocationException, InvalidStageStateException, InvalidStageTypeException;
 
-	/**
-	 * Removes a segment from a stage.
-	 * <p>
-	 * The state of this MiniCyclingPortalInterface must be unchanged if any
-	 * exceptions are thrown.
-	 * 
-	 * @param segmentId The ID of the segment to be removed.
-	 * @throws IDNotRecognisedException   If the ID does not match to any segment in
-	 *                                    the system.
-	 * @throws InvalidStageStateException If the stage is "waiting for results".
-	 */
-	void removeSegment(int segmentId) throws IDNotRecognisedException, InvalidStageStateException;
+	public class removeSegment{
+     
+		public static void main(String[] args) throws Exception {
+			 
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			dbf.setValidating(false);
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			 
+			Document doc = db.parse(new FileInputStream(new File()));
+			 
+			Element element = (Element) doc.getElementsByTagName("segmentId").item(0);
+			 
+			
+			boolean hasAttribute = element.hasAttribute("segmentId");
+			
+	 		element.removeAttribute("segmentId");
+	 	void removeSegment(int segmentId) throws IDNotRecognisedException, InvalidStageStateException;
 
 	/**
 	 * Concludes the preparation of a stage. After conclusion, the stage's state
@@ -252,17 +270,23 @@ public interface MiniCyclingPortalInterface extends Serializable {
 	 */
 	int createTeam(String name, String description) throws IllegalNameException, InvalidNameException;
 
-	/**
-	 * Removes a team from the system.
-	 * <p>
-	 * The state of this MiniCyclingPortalInterface must be unchanged if any
-	 * exceptions are thrown.
-	 * 
-	 * @param teamId The ID of the team to be removed.
-	 * @throws IDNotRecognisedException If the ID does not match to any team in the
-	 *                                  system.
-	 */
-	void removeTeam(int teamId) throws IDNotRecognisedException;
+	public class removeTeam{
+     
+		public static void main(String[] args) throws Exception {
+			 
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			dbf.setValidating(false);
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			 
+			Document doc = db.parse(new FileInputStream(new File()));
+			 
+			Element element = (Element) doc.getElementsByTagName("teamId").item(0);
+			 
+			
+			boolean hasAttribute = element.hasAttribute("teamId");
+			
+	 		element.removeAttribute("teamId");
+	 		void removeTeam(int teamId) throws IDNotRecognisedException;
 
 	/**
 	 * Get the list of teams' IDs in the system.
@@ -306,18 +330,24 @@ public interface MiniCyclingPortalInterface extends Serializable {
 	 */
 	int createRider(int teamID, String name, int yearOfBirth) throws IDNotRecognisedException, IllegalArgumentException;
 
-	/**
-	 * Removes a rider from the system. When a rider is removed from the platform,
-	 * all of its results should be also removed. Race results must be updated.
-	 * <p>
-	 * The state of this MiniCyclingPortalInterface must be unchanged if any
-	 * exceptions are thrown.
-	 * 
-	 * @param riderId The ID of the rider to be removed.
-	 * @throws IDNotRecognisedException If the ID does not match to any rider in the
-	 *                                  system.
-	 */
-	void removeRider(int riderId) throws IDNotRecognisedException;
+	public class removeRider{
+     
+		public static void main(String[] args) throws Exception {
+			 
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			dbf.setValidating(false);
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			 
+			Document doc = db.parse(new FileInputStream(new File()));
+			 
+			Element element = (Element) doc.getElementsByTagName("riderId").item(0);
+			 
+			
+			boolean hasAttribute = element.hasAttribute("riderId");
+			
+	 		element.removeAttribute("riderId");
+	 
+			void removeRider(int riderId) throws IDNotRecognisedException;
 
 	/**
 	 * Record the times of a rider in a stage.
