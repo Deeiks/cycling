@@ -14,10 +14,13 @@ import java.util.ArrayList;
  * @version 1.0
  *
  */
+
+//We create an arraylists for races and teams.
 public class BadMiniCyclingPortal implements MiniCyclingPortalInterface {
 	static ArrayList<Race> races = new ArrayList<Race>();
 	static ArrayList<Team> teams = new ArrayList<Team>();
 
+//This class is trying to get races by using their specific identifications.
 	@Override
 	public int[] getRaceIds() {
 		int[] raceIDs =  new int[races.size()];
@@ -29,6 +32,7 @@ public class BadMiniCyclingPortal implements MiniCyclingPortalInterface {
 		return raceIDs;
 	}
 
+//This class is creating new races, also avoids creating two identical ones.
 	@Override
 	public int createRace(String name, String description) throws IllegalNameException, InvalidNameException {
 		try {
@@ -64,6 +68,7 @@ public class BadMiniCyclingPortal implements MiniCyclingPortalInterface {
 		return null;
 	}
 
+	//This class checks if raceid matches getid then if it is then it breaks.
 	@Override
 	public void removeRaceById(int raceId) throws IDNotRecognisedException {
 		try{
@@ -81,6 +86,7 @@ public class BadMiniCyclingPortal implements MiniCyclingPortalInterface {
 		}
 	}
 
+	//This class checks if raceid matches getid then continues its purpose
 	@Override
 	public int getNumberOfStages(int raceId) throws IDNotRecognisedException {
 		try{
@@ -92,6 +98,7 @@ public class BadMiniCyclingPortal implements MiniCyclingPortalInterface {
 		return 0;
 	}
 
+	//If length is less then 5, then we dont use it.
 	@Override
 	public int addStageToRace(int raceId, String stageName, String description, double length, LocalDateTime startTime,
 			StageType type)
@@ -113,6 +120,7 @@ public class BadMiniCyclingPortal implements MiniCyclingPortalInterface {
 		return 0;
 	}
 
+	//Uses getter method
 	@Override
 	public int[] getRaceStages(int raceId) throws IDNotRecognisedException {
 		try{
@@ -129,6 +137,7 @@ public class BadMiniCyclingPortal implements MiniCyclingPortalInterface {
 		return null;
 	}
 
+	//Uses getter method
 	@Override
 	public double getStageLength(int stageId) throws IDNotRecognisedException {
 		try{
@@ -144,6 +153,7 @@ public class BadMiniCyclingPortal implements MiniCyclingPortalInterface {
 		return 0;
 	}
 
+	//If getid matches stageid we then remove the stage
 	@Override
 	public void removeStageById(int stageId) throws IDNotRecognisedException {
 		try{ boolean check = false;
@@ -160,6 +170,7 @@ public class BadMiniCyclingPortal implements MiniCyclingPortalInterface {
 		}
 	}
 
+	// We create an arrays within arrays, so public race has an array of public stages in it , which in itself has an array of results and segments
 	@Override
 	public int addCategorizedClimbToStage(int stageId, Double location, SegmentType type, Double averageGradient,
 			Double length) throws IDNotRecognisedException, InvalidLocationException, InvalidStageStateException,
@@ -271,6 +282,7 @@ public class BadMiniCyclingPortal implements MiniCyclingPortalInterface {
 		return null;
 	}
 
+	//This class is creating new teams, also avoids creating two identical ones.
 	@Override
 	public int createTeam(String name, String description) throws IllegalNameException, InvalidNameException {
 		try {
@@ -339,6 +351,8 @@ public class BadMiniCyclingPortal implements MiniCyclingPortalInterface {
 		}
 		return null;
 	}
+	
+	//This class is creating new riders, also avoids creating two identical ones.
 	@Override
 	public int createRider(int teamID, String name, int yearOfBirth)
 			throws IDNotRecognisedException, IllegalArgumentException {
